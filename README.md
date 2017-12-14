@@ -1,7 +1,5 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/nunomaduro/laravel-console-task/stable/docs/logo.png" alt="LaravelConsoleTask logo" width="480">
-    <br>
-    <img src="https://raw.githubusercontent.com/nunomaduro/laravel-console-task/stable/docs/example.png" alt="LaravelConsoleTask preview" height="300">
+    <img src="docs/example.png" width="480">
 </p>
 
 <p align="center">

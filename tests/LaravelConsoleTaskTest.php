@@ -13,18 +13,18 @@ declare(strict_types=1);
 
 namespace NunoMaduro\Tests\LaravelConsoleTask;
 
-use ReflectionClass;
 use Illuminate\Console\Command;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Output\OutputInterface;
 use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * This is the service provider test class.
  *
  * @author Nuno Maduro <enunomaduro@gmail.com>
  */
-class ServiceProviderTest extends TestCase
+class LaravelConsoleTaskTest extends TestCase
 {
     public function testSuccessfulTask()
     {

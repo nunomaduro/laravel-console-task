@@ -28,7 +28,7 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
+        /*
          * Performs the given task, outputs and
          * returns the result.
          *
@@ -40,7 +40,6 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
         Command::macro(
             'task',
             function (string $title, callable $task) {
-
                 $result = $task();
 
                 $this->output->writeln(

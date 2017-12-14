@@ -24,7 +24,7 @@ use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
  *
  * @author Nuno Maduro <enunomaduro@gmail.com>
  */
-class ServiceProviderTest extends TestCase
+class LaravelConsoleTaskTest extends TestCase
 {
     public function testSuccessfulTask()
     {

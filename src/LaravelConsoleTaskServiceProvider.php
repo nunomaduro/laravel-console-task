@@ -42,7 +42,7 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
             function (string $title, callable $task) {
                 return tap($task(), function ($result) use ($title) {
                     $this->output->writeln(
-                        "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>';
+                        "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>')
                     );
                 });
             }

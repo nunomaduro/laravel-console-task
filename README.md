@@ -14,7 +14,7 @@
 
 Laravel Console Task was created by, and is maintained by [Nuno Maduro](https://github.com/nunomaduro), and is output method for Laravel Console Commands.
 
-## Installation & Usage
+## Installation
 
 > **Requires [PHP 7.1+](https://php.net/releases/)**
 
@@ -22,6 +22,25 @@ Require LaravelConsoleTask using [Composer](https://getcomposer.org):
 
 ```bash
 composer require nunomaduro/laravel-console-task
+```
+
+## Usage
+
+```php
+class LaravelInstallCommand extends Command
+{
+    /**
+     * Execute the console command.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $this->task('Downloading Laravel', function () {
+            return Laravel::install();
+        });
+    }
+}
 ```
 
 ## Contributing

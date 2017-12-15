@@ -40,13 +40,11 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
         Command::macro(
             'task',
             function (string $title, callable $task) {
-                $result = $task();
-
-                $this->output->writeln(
-                    "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>')
-                );
-
-                return $result;
+                return tap($task(), function ($result) use ($title) {
+                    $this->output->writeln(
+                        "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>';
+                    );
+                });
             }
         );
     }

@@ -1,13 +1,13 @@
 <p align="center">
-    <img src="docs/example.png" width="480">
+    <img src="docs/example.png" width="100%">
 </p>
 
 <p align="center">
   <a href="https://styleci.io/repos/113789331"><img src="https://styleci.io/repos/113789331/shield" alt="StyleCI Status"></img></a>
-  <a href="https://scrutinizer-ci.com/g/nunomaduro/laravel-console-task"><img src="https://img.shields.io/scrutinizer/g/nunomaduro/laravel-console-task.svg?style=flat-square" alt="Quality Score"></img></a>
+  <a href="https://scrutinizer-ci.com/g/nunomaduro/laravel-console-task"><img src="https://img.shields.io/scrutinizer/g/nunomaduro/laravel-console-task.svg" alt="Quality Score"></img></a>
   <a href="https://packagist.org/packages/nunomaduro/laravel-console-task"><img src="https://poser.pugx.org/nunomaduro/laravel-console-task/d/total.svg" alt="Total Downloads"></a>
   <a href="https://packagist.org/packages/nunomaduro/laravel-console-task"><img src="https://poser.pugx.org/nunomaduro/laravel-console-task/v/stable.svg" alt="Latest Stable Version"></a>
-  <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></img></a>
+  <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="Software License"></img></a>
 </p>
 
 ## About Laravel Console Task
@@ -16,9 +16,9 @@ Laravel Console Task was created by, and is maintained by [Nuno Maduro](https://
 
 ## Installation
 
-> **Requires [PHP 7.1+](https://php.net/releases/)**
+> **Requires [PHP 7.0+](https://php.net/releases/)**
 
-Require LaravelConsoleTask using [Composer](https://getcomposer.org):
+Require Laravel Console Task using [Composer](https://getcomposer.org):
 
 ```bash
 composer require nunomaduro/laravel-console-task
@@ -36,8 +36,12 @@ class LaravelInstallCommand extends Command
      */
     public function handle()
     {
-        $this->task('Downloading Laravel', function () {
-            return Laravel::install();
+        $this->task('Installing Laravel', function () {
+            return true;
+        });
+
+        $this->task('Doing something else', function () {
+            return false;
         });
     }
 }

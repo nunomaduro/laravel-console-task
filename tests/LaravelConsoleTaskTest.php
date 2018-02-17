@@ -32,7 +32,7 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock = $this->createMock(OutputInterface::class);
 
-        $outputMock->expects($this->once())
+        $outputMock->expects($this->exactly(2))
             ->method('writeln')
             ->with('Foo: <info>✔</info>');
 
@@ -49,6 +49,14 @@ class LaravelConsoleTaskTest extends TestCase
                 'Foo',
                 function () {
                     return true;
+                }
+            )
+        );
+
+        $this->assertTrue(
+            $command->task(
+                'Foo',
+                function () {
                 }
             )
         );

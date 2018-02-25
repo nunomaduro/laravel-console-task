@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.4] - 2018-02-25
+### Added
+- UI improvements (#5)
+
 ## [1.0.1] - 2018-01-24
 ### Added
 - Support to Laravel 5.6.

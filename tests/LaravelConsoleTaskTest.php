@@ -26,13 +26,42 @@ use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
  */
 class LaravelConsoleTaskTest extends TestCase
 {
-    public function testSuccessfulTask()
+    public function testSuccessfulTaskWithReturnValueAndDecoratedOutput()
+    {
+        $this->performTestSuccessfulTaskWithDecoratedOutput(
+            function () {
+                return true;
+            }
+        );
+    }
+
+    public function testSuccessfulTaskWithoutReturnValueAndDecoratedOutput()
+    {
+        $this->performTestSuccessfulTaskWithDecoratedOutput(
+            function () {
+            }
+        );
+    }
+
+    private function performTestSuccessfulTaskWithDecoratedOutput(callable $task)
     {
         $command = new Command();
 
         $outputMock = $this->createMock(OutputInterface::class);
 
-        $outputMock->expects($this->exactly(2))
+        $outputMock->expects($this->once())
+            ->method('isDecorated')
+            ->willReturn(true);
+
+        $outputMock->expects($this->exactly(3))
+            ->method('write')
+            ->withConsecutive(
+                [$this->equalTo('Foo: <comment>loading...</comment>')],
+                [$this->equalTo("\x0D")],
+                [$this->equalTo("\x1B[2K")]
+            );
+
+        $outputMock->expects($this->once())
             ->method('writeln')
             ->with('Foo: <info>✔</info>');
 
@@ -45,32 +74,121 @@ class LaravelConsoleTaskTest extends TestCase
         (new LaravelConsoleTaskServiceProvider(null))->boot();
 
         $this->assertTrue(
-            $command->task(
-                'Foo',
-                function () {
-                    return true;
-                }
-            )
-        );
-
-        $this->assertTrue(
-            $command->task(
-                'Foo',
-                function () {
-                }
-            )
+            $command->task('Foo', $task)
         );
     }
 
-    public function testUnsuccessfulTask()
+    public function testSuccessfulTaskWithReturnValueAndWithoutDecoratedOutput()
+    {
+        $this->performTestSuccessfulTaskWithoutDecoratedOutput(
+            function () {
+                return true;
+            }
+        );
+    }
+
+    public function testSuccessfulTaskWithoutReturnValueAndWithoutDecoratedOutput()
+    {
+        $this->performTestSuccessfulTaskWithoutDecoratedOutput(
+            function () {
+            }
+        );
+    }
+
+    private function performTestSuccessfulTaskWithoutDecoratedOutput(callable $task)
     {
         $command = new Command();
 
         $outputMock = $this->createMock(OutputInterface::class);
 
         $outputMock->expects($this->once())
+            ->method('isDecorated')
+            ->willReturn(false);
+
+        $outputMock->expects($this->once())
+            ->method('write')
+            ->with('Foo: <comment>loading...</comment>');
+
+        $outputMock->expects($this->exactly(2))
+            ->method('writeln')
+            ->withConsecutive(
+                [''],
+                ['Foo: <info>✔</info>']
+            );
+
+        $commandReflection = new ReflectionClass($command);
+
+        $commandOutputProperty = $commandReflection->getProperty('output');
+        $commandOutputProperty->setAccessible(true);
+        $commandOutputProperty->setValue($command, $outputMock);
+
+        (new LaravelConsoleTaskServiceProvider(null))->boot();
+
+        $this->assertTrue(
+            $command->task('Foo', $task)
+        );
+    }
+
+    public function testUnsuccessfulTaskWithDecoratedOutput()
+    {
+        $command = new Command();
+
+        $outputMock = $this->createMock(OutputInterface::class);
+
+        $outputMock->expects($this->once())
+            ->method('isDecorated')
+            ->willReturn(true);
+
+        $outputMock->expects($this->exactly(3))
+            ->method('write')
+            ->withConsecutive(
+                [$this->equalTo('Bar: <comment>loading...</comment>')],
+                [$this->equalTo("\x0D")],
+                [$this->equalTo("\x1B[2K")]
+            );
+
+        $outputMock->expects($this->once())
             ->method('writeln')
             ->with('Bar: <error>failed</error>');
+
+        $commandReflection = new ReflectionClass($command);
+
+        $commandOutputProperty = $commandReflection->getProperty('output');
+        $commandOutputProperty->setAccessible(true);
+        $commandOutputProperty->setValue($command, $outputMock);
+
+        (new LaravelConsoleTaskServiceProvider(null))->boot();
+
+        $this->assertFalse(
+            $command->task(
+                'Bar',
+                function () {
+                    return false;
+                }
+            )
+        );
+    }
+
+    public function testUnsuccessfulTaskWithoutDecoratedOutput()
+    {
+        $command = new Command();
+
+        $outputMock = $this->createMock(OutputInterface::class);
+
+        $outputMock->expects($this->once())
+            ->method('isDecorated')
+            ->willReturn(false);
+
+        $outputMock->expects($this->once())
+            ->method('write')
+            ->with('Bar: <comment>loading...</comment>');
+
+        $outputMock->expects($this->exactly(2))
+            ->method('writeln')
+            ->withConsecutive(
+                [''],
+                ['Bar: <error>failed</error>']
+            );
 
         $commandReflection = new ReflectionClass($command);
 

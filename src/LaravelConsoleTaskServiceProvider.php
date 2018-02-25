@@ -40,11 +40,25 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
         Command::macro(
             'task',
             function (string $title, callable $task) {
-                return tap($task() === false ? false : true, function ($result) use ($title) {
-                    $this->output->writeln(
-                        "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>')
-                    );
-                });
+                $this->output->write("$title: <comment>loading...</comment>");
+
+                $result = $task() === false ? false : true;
+
+                if ($this->output->isDecorated()) { // Determines if we can use escape sequences
+                    // Move the cursor to the beginning of the line
+                    $this->output->write("\x0D");
+
+                    // Erase the line
+                    $this->output->write("\x1B[2K");
+                } else {
+                    $this->output->writeln(''); // Make sure we first close the previous line
+                }
+
+                $this->output->writeln(
+                    "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>')
+                );
+
+                return $result;
             }
         );
     }

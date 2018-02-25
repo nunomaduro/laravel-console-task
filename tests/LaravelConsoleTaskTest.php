@@ -33,8 +33,12 @@ class LaravelConsoleTaskTest extends TestCase
         $outputMock = $this->createMock(OutputInterface::class);
 
         $outputMock->expects($this->exactly(2))
+            ->method('write')
+            ->with('Foo: ');
+
+        $outputMock->expects($this->exactly(2))
             ->method('writeln')
-            ->with('Foo: <info>✔</info>');
+            ->with('<info>✔</info>');
 
         $commandReflection = new ReflectionClass($command);
 
@@ -69,8 +73,12 @@ class LaravelConsoleTaskTest extends TestCase
         $outputMock = $this->createMock(OutputInterface::class);
 
         $outputMock->expects($this->once())
+            ->method('write')
+            ->with('Bar: ');
+
+        $outputMock->expects($this->once())
             ->method('writeln')
-            ->with('Bar: <error>failed</error>');
+            ->with('<error>failed</error>');
 
         $commandReflection = new ReflectionClass($command);
 

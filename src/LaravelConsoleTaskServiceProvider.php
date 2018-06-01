@@ -42,7 +42,11 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
             function (string $title, $task = null) {
                 $this->output->write("$title: <comment>loading...</comment>");
 
-                $result = $task === null || $task() === false ? false : true;
+                if ($task === null) {
+                    $result = true;
+                } else {
+                    $result = $task() === false ? false : true;
+                }
 
                 if ($this->output->isDecorated()) { // Determines if we can use escape sequences
                     // Move the cursor to the beginning of the line

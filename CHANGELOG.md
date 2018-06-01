@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.6] - 2018-06-01
+### Added
+- Fixes regression introduced on 1.0.5.
+
 ## [1.0.5] - 2018-06-01
 ### Added
 - Possibility of perform task with callable.

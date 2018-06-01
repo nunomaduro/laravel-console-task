@@ -33,16 +33,16 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
          * returns the result.
          *
          * @param  string $title
-         * @param  callable $task
+         * @param  callable|null $task
          *
          * @return bool With the result of the task.
          */
         Command::macro(
             'task',
-            function (string $title, callable $task) {
+            function (string $title, $task = null) {
                 $this->output->write("$title: <comment>loading...</comment>");
 
-                $result = $task() === false ? false : true;
+                $result = $task === null || $task() === false ? false : true;
 
                 if ($this->output->isDecorated()) { // Determines if we can use escape sequences
                     // Move the cursor to the beginning of the line

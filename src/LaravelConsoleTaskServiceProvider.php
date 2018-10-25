@@ -39,8 +39,8 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
          */
         Command::macro(
             'task',
-            function (string $title, $task = null) {
-                $this->output->write("$title: <comment>loading...</comment>");
+            function (string $title, $task = null, $loadingText = 'loading...') {
+                $this->output->write("$title: <comment>{$loadingText}</comment>");
 
                 if ($task === null) {
                     $result = true;

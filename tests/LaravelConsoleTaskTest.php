@@ -207,4 +207,44 @@ class LaravelConsoleTaskTest extends TestCase
             )
         );
     }
+
+    public function testUnsuccessfulTaskWithException()
+    {
+        $command = new Command();
+
+        $outputMock = $this->createMock(OutputInterface::class);
+
+        $outputMock->expects($this->once())
+            ->method('isDecorated')
+            ->willReturn(false);
+
+        $outputMock->expects($this->once())
+            ->method('write')
+            ->with('Bar: <comment>loading...</comment>');
+
+        $outputMock->expects($this->exactly(2))
+            ->method('writeln')
+            ->withConsecutive(
+                [''],
+                ['Bar: <error>failed</error>']
+            );
+
+        $commandReflection = new ReflectionClass($command);
+
+        $commandOutputProperty = $commandReflection->getProperty('output');
+        $commandOutputProperty->setAccessible(true);
+        $commandOutputProperty->setValue($command, $outputMock);
+
+        (new LaravelConsoleTaskServiceProvider(null))->boot();
+
+        $this->expectException(\Exception::class);  
+
+        $command->task(
+            'Bar',
+            function () {
+                throw new \Exception();
+            }
+        );
+
+    }
 }

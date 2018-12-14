@@ -245,6 +245,5 @@ class LaravelConsoleTaskTest extends TestCase
                 throw new \Exception();
             }
         );
-
     }
 }

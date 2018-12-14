@@ -237,7 +237,7 @@ class LaravelConsoleTaskTest extends TestCase
 
         (new LaravelConsoleTaskServiceProvider(null))->boot();
 
-        $this->expectException(\Exception::class);  
+        $this->expectException(\Exception::class);
 
         $command->task(
             'Bar',

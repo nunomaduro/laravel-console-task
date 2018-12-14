@@ -65,7 +65,7 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
                 $this->output->writeln(
                     "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>')
                 );
-                
+
                 if (isset($taskException)) {
                     throw $taskException;
                 }

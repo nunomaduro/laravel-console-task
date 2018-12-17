@@ -45,7 +45,11 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
                 if ($task === null) {
                     $result = true;
                 } else {
-                    $result = $task() === false ? false : true;
+                    try {
+                        $result = $task() === false ? false : true;
+                    } catch (\Exception $taskException) {
+                        $result = false;
+                    }
                 }
 
                 if ($this->output->isDecorated()) { // Determines if we can use escape sequences
@@ -61,6 +65,10 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
                 $this->output->writeln(
                     "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>')
                 );
+
+                if (isset($taskException)) {
+                    throw $taskException;
+                }
 
                 return $result;
             }

@@ -27,12 +27,12 @@ use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
 class LaravelConsoleTaskTest extends TestCase
 {
     /**
-     * Custom task error message
+     * Custom task error message.
      * @var string
      */
     protected $customErrorMessage = 'something went wrong';
     /**
-     * Custom task loading message
+     * Custom task loading message.
      * @var string
      */
     protected $customLoadingMessage = 'doing stuff...';

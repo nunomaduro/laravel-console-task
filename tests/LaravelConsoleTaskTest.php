@@ -26,6 +26,17 @@ use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
  */
 class LaravelConsoleTaskTest extends TestCase
 {
+    /**
+     * Custom task error message
+     * @var string
+     */
+    protected $customErrorMessage = 'something went wrong';
+    /**
+     * Custom task loading message
+     * @var string
+     */
+    protected $customLoadingMessage = 'doing stuff...';
+
     public function testSuccessfulTaskWithReturnValueAndDecoratedOutput()
     {
         $this->performTestSuccessfulTaskWithDecoratedOutput(
@@ -56,7 +67,7 @@ class LaravelConsoleTaskTest extends TestCase
         $outputMock->expects($this->exactly(3))
             ->method('write')
             ->withConsecutive(
-                [$this->equalTo('Foo: <comment>loading...</comment>')],
+                [$this->equalTo("Foo: <comment>{$this->customLoadingMessage}</comment>")],
                 [$this->equalTo("\x0D")],
                 [$this->equalTo("\x1B[2K")]
             );
@@ -74,7 +85,7 @@ class LaravelConsoleTaskTest extends TestCase
         (new LaravelConsoleTaskServiceProvider(null))->boot();
 
         $this->assertTrue(
-            $command->task('Foo', $task)
+            $command->task('Foo', $task, $this->customLoadingMessage)
         );
     }
 
@@ -107,7 +118,7 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock->expects($this->once())
             ->method('write')
-            ->with('Foo: <comment>loading...</comment>');
+            ->with("Foo: <comment>{$this->customLoadingMessage}</comment>");
 
         $outputMock->expects($this->exactly(2))
             ->method('writeln')
@@ -125,7 +136,7 @@ class LaravelConsoleTaskTest extends TestCase
         (new LaravelConsoleTaskServiceProvider(null))->boot();
 
         $this->assertTrue(
-            $command->task('Foo', $task)
+            $command->task('Foo', $task, $this->customLoadingMessage)
         );
     }
 
@@ -142,14 +153,14 @@ class LaravelConsoleTaskTest extends TestCase
         $outputMock->expects($this->exactly(3))
             ->method('write')
             ->withConsecutive(
-                [$this->equalTo('Bar: <comment>loading...</comment>')],
+                [$this->equalTo("Bar: <comment>{$this->customLoadingMessage}</comment>")],
                 [$this->equalTo("\x0D")],
                 [$this->equalTo("\x1B[2K")]
             );
 
         $outputMock->expects($this->once())
             ->method('writeln')
-            ->with('Bar: <error>failed</error>');
+            ->with("Bar: <error>{$this->customErrorMessage}</error>");
 
         $commandReflection = new ReflectionClass($command);
 
@@ -164,7 +175,9 @@ class LaravelConsoleTaskTest extends TestCase
                 'Bar',
                 function () {
                     return false;
-                }
+                },
+                $this->customLoadingMessage,
+                $this->customErrorMessage
             )
         );
     }
@@ -181,13 +194,13 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock->expects($this->once())
             ->method('write')
-            ->with('Bar: <comment>loading...</comment>');
+            ->with("Bar: <comment>{$this->customLoadingMessage}</comment>");
 
         $outputMock->expects($this->exactly(2))
             ->method('writeln')
             ->withConsecutive(
                 [''],
-                ['Bar: <error>failed</error>']
+                ["Bar: <error>{$this->customErrorMessage}</error>"]
             );
 
         $commandReflection = new ReflectionClass($command);
@@ -203,7 +216,9 @@ class LaravelConsoleTaskTest extends TestCase
                 'Bar',
                 function () {
                     return false;
-                }
+                },
+                $this->customLoadingMessage,
+                $this->customErrorMessage
             )
         );
     }
@@ -220,13 +235,13 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock->expects($this->once())
             ->method('write')
-            ->with('Bar: <comment>loading...</comment>');
+            ->with("Bar: <comment>{$this->customLoadingMessage}</comment>");
 
         $outputMock->expects($this->exactly(2))
             ->method('writeln')
             ->withConsecutive(
                 [''],
-                ['Bar: <error>failed</error>']
+                ["Bar: <error>{$this->customErrorMessage}</error>"]
             );
 
         $commandReflection = new ReflectionClass($command);
@@ -243,7 +258,9 @@ class LaravelConsoleTaskTest extends TestCase
             'Bar',
             function () {
                 throw new \Exception();
-            }
+            },
+            $this->customLoadingMessage,
+            $this->customErrorMessage
         );
     }
 }

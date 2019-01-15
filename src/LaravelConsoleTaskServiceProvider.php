@@ -34,12 +34,14 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
          *
          * @param  string $title
          * @param  callable|null $task
+         * @param  string $errorMessage
+         * @param  string $loadingText
          *
          * @return bool With the result of the task.
          */
         Command::macro(
             'task',
-            function (string $title, $task = null, $loadingText = 'loading...') {
+            function (string $title, $task = null, string $errorMessage = "failed", string $loadingText = 'loading...') {
                 $this->output->write("$title: <comment>{$loadingText}</comment>");
 
                 if ($task === null) {
@@ -63,7 +65,7 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
                 }
 
                 $this->output->writeln(
-                    "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>')
+                    "$title: ".($result ? '<info>✔</info>' : "<error>{$errorMessage}</error>")
                 );
 
                 if (isset($taskException)) {

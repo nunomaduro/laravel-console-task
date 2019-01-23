@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] - 2019-01-23
+### Added
+- Support to Laravel 5.8 [b3abde0](https://github.com/nunomaduro/laravel-console-task/commit/b3abde0957606fddde7147a7531289a80992e4b1)
+
 ## [1.1.0] - 2018-12-17
 ### Added
 - Shows error outputs when exception happens [#8](https://github.com/nunomaduro/laravel-console-task/pull/8)

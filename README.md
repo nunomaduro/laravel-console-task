@@ -27,6 +27,8 @@ composer require nunomaduro/laravel-console-task
 ## Usage
 
 ```php
+use NunoMaduro\LaravelConsoleTask\ConsoleTaskOutput;
+
 class LaravelInstallCommand extends Command
 {
     /**
@@ -42,6 +44,25 @@ class LaravelInstallCommand extends Command
 
         $this->task('Doing something else', function () {
             return false;
+        });
+
+        $this->task('Finalizing installation', function (ConsoleTaskOutput $output) {
+            // [optional]
+            // $output->setIndentation('  --> ');
+            
+            $output->text('Collecting important data...');
+            $output->note('Fetching news feeds...');
+            $output->comment('Evaluating requirements...');
+
+            $output->caution('No existing users found.');
+
+            if ($this->requiresUser()) {
+                $output->error('A user is required to use the application.');
+                return false;
+            }
+
+            $output->success('All up and running!');
+            return true;
         });
     }
 }

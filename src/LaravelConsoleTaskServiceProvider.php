@@ -42,29 +42,38 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
             function (string $title, $task = null, $loadingText = 'loading...') {
                 $this->output->write("$title: <comment>{$loadingText}</comment>");
 
+                $taskOutput = new ConsoleTaskOutput($this->output);
+
                 if ($task === null) {
                     $result = true;
                 } else {
                     try {
-                        $result = $task() === false ? false : true;
+                        $result = $task($taskOutput) === false ? false : true;
                     } catch (\Exception $taskException) {
                         $result = false;
                     }
                 }
 
-                if ($this->output->isDecorated()) { // Determines if we can use escape sequences
-                    // Move the cursor to the beginning of the line
-                    $this->output->write("\x0D");
-
-                    // Erase the line
-                    $this->output->write("\x1B[2K");
-                } else {
-                    $this->output->writeln(''); // Make sure we first close the previous line
+                // isDecorated() determines if we can use escape sequences
+                if ($this->output->isDecorated() && $taskOutput->hasCreatedOutput()) {
+                    $lines = $taskOutput->countWrittenLines() + 1;
+                    $this->output->write("\x1B[s");         // Save current cursor position
+                    $this->output->write("\x1B[{$lines}A"); // Move cursor $lines rows up
+                    $this->output->write("\x1B[2K");        // Erase the line
+                } else if ($this->output->isDecorated()) {
+                    $this->output->write("\x0D");           // Move the cursor to the beginning of the line
+                    $this->output->write("\x1B[2K");        // Erase the line
+                } else if (!$this->output->isDecorated() && !$taskOutput->hasCreatedOutput()) {
+                    $this->output->writeln('');             // Make sure we first close the previous line
                 }
 
                 $this->output->writeln(
                     "$title: ".($result ? '<info>✔</info>' : '<error>failed</error>')
                 );
+
+                if ($this->output->isDecorated() && $taskOutput->hasCreatedOutput()) {
+                    $this->output->write("\x1B[u");         // Restore the previously saved cursor position to avoid overrides of console output
+                }
 
                 if (isset($taskException)) {
                     throw $taskException;

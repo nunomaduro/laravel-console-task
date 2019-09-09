@@ -16,7 +16,7 @@ namespace NunoMaduro\Tests\LaravelConsoleTask;
 use ReflectionClass;
 use Illuminate\Console\Command;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Console\OutputStyle;
 use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
 
 /**
@@ -47,9 +47,9 @@ class LaravelConsoleTaskTest extends TestCase
     {
         $command = new Command();
 
-        $outputMock = $this->createMock(OutputInterface::class);
+        $outputMock = $this->createMock(OutputStyle::class);
 
-        $outputMock->expects($this->once())
+        $outputMock->expects($this->atLeastOnce())
             ->method('isDecorated')
             ->willReturn(true);
 
@@ -78,6 +78,61 @@ class LaravelConsoleTaskTest extends TestCase
         );
     }
 
+    public function testSuccessfulTaskWithAdditionalDecoratedOutput()
+    {
+        $command = new Command();
+
+        $outputMock = $this->createMock(OutputStyle::class);
+
+        $outputMock->expects($this->atLeastOnce())
+            ->method('isDecorated')
+            ->willReturn(true);
+
+        $outputMock->expects($this->exactly(5))
+            ->method('write')
+            ->withConsecutive(
+                [$this->equalTo('Foo: <comment>loading...</comment>')],
+                [$this->equalTo("\x1B[s")],
+                [$this->equalTo("\x1B[7A")],
+                [$this->equalTo("\x1B[2K")],
+                [$this->equalTo("\x1B[u")]
+            );
+
+        $outputMock->expects($this->once())
+            ->method('newLine');
+
+        $outputMock->expects($this->exactly(7))
+            ->method('writeln')
+            ->withConsecutive(
+                ['  -> Foo</>'],
+                ['  -> <info>Bar</>'],
+                ['  -> <error>Baz</>'],
+                ['  -> <fg=magenta>Fizz</>'],
+                ['  -> <fg=blue>Buzz</>'],
+                ['  -> <comment>Lightning</>'],
+                ['Foo: <info>✔</info>']
+            );
+
+        $commandReflection = new ReflectionClass($command);
+
+        $commandOutputProperty = $commandReflection->getProperty('output');
+        $commandOutputProperty->setAccessible(true);
+        $commandOutputProperty->setValue($command, $outputMock);
+
+        (new LaravelConsoleTaskServiceProvider(null))->boot();
+
+        $this->assertTrue(
+            $command->task('Foo', function ($output) {
+                $output->text('Foo');
+                $output->success('Bar');
+                $output->error('Baz');
+                $output->note('Fizz');
+                $output->caution('Buzz');
+                $output->comment('Lightning');
+            })
+        );
+    }
+
     public function testSuccessfulTaskWithReturnValueAndWithoutDecoratedOutput()
     {
         $this->performTestSuccessfulTaskWithoutDecoratedOutput(
@@ -99,9 +154,9 @@ class LaravelConsoleTaskTest extends TestCase
     {
         $command = new Command();
 
-        $outputMock = $this->createMock(OutputInterface::class);
+        $outputMock = $this->createMock(OutputStyle::class);
 
-        $outputMock->expects($this->once())
+        $outputMock->expects($this->atLeastOnce())
             ->method('isDecorated')
             ->willReturn(false);
 
@@ -129,13 +184,62 @@ class LaravelConsoleTaskTest extends TestCase
         );
     }
 
+    public function testSuccessfulTaskWithAdditionalOutputButWithoutDecoratedOutput()
+    {
+        $command = new Command();
+
+        $outputMock = $this->createMock(OutputStyle::class);
+
+        $outputMock->expects($this->atLeastOnce())
+            ->method('isDecorated')
+            ->willReturn(false);
+
+        $outputMock->expects($this->once())
+            ->method('write')
+            ->with('Foo: <comment>loading...</comment>');
+
+            $outputMock->expects($this->once())
+                ->method('newLine');
+    
+            $outputMock->expects($this->exactly(7))
+                ->method('writeln')
+                ->withConsecutive(
+                    ['  -> Foo</>'],
+                    ['  -> <info>Bar</>'],
+                    ['  -> <error>Baz</>'],
+                    ['  -> <fg=magenta>Fizz</>'],
+                    ['  -> <fg=blue>Buzz</>'],
+                    ['  -> <comment>Lightning</>'],
+                    ['Foo: <info>✔</info>']
+                );
+
+        $commandReflection = new ReflectionClass($command);
+
+        $commandOutputProperty = $commandReflection->getProperty('output');
+        $commandOutputProperty->setAccessible(true);
+        $commandOutputProperty->setValue($command, $outputMock);
+
+        (new LaravelConsoleTaskServiceProvider(null))->boot();
+
+        $this->assertTrue(
+            $command->task('Foo', function ($output) {
+                $output->text('Foo');
+                $output->success('Bar');
+                $output->error('Baz');
+                $output->note('Fizz');
+                $output->caution('Buzz');
+                $output->comment('Lightning');
+            })
+        );
+    }
+
     public function testUnsuccessfulTaskWithDecoratedOutput()
     {
         $command = new Command();
 
-        $outputMock = $this->createMock(OutputInterface::class);
+        $outputMock = $this->createMock(OutputStyle::class);
 
-        $outputMock->expects($this->once())
+        $outputMock->expects($this->atLeastOnce())
             ->method('isDecorated')
             ->willReturn(true);
 
@@ -173,9 +277,9 @@ class LaravelConsoleTaskTest extends TestCase
     {
         $command = new Command();
 
-        $outputMock = $this->createMock(OutputInterface::class);
+        $outputMock = $this->createMock(OutputStyle::class);
 
-        $outputMock->expects($this->once())
+        $outputMock->expects($this->atLeastOnce())
             ->method('isDecorated')
             ->willReturn(false);
 
@@ -212,9 +316,9 @@ class LaravelConsoleTaskTest extends TestCase
     {
         $command = new Command();
 
-        $outputMock = $this->createMock(OutputInterface::class);
+        $outputMock = $this->createMock(OutputStyle::class);
 
-        $outputMock->expects($this->once())
+        $outputMock->expects($this->atLeastOnce())
             ->method('isDecorated')
             ->willReturn(false);
 

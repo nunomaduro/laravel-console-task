@@ -39,7 +39,7 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
          */
         Command::macro(
             'task',
-            function (string $title, $task = null, $loadingText = 'loading...', $failedText = 'failed') {
+            function (string $title, $task = null, $loadingText = 'loading...', $failureText = 'failed') {
                 $this->output->write("$title: <comment>{$loadingText}</comment>");
 
                 if ($task === null) {
@@ -66,7 +66,7 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
                 }
 
                 $this->output->writeln(
-                    "$title: ".($result === false ? '<error>'.$failedText.'</error>' : '<info>'.($result === true ? '✔' : $result).'</info>')
+                    "$title: ".($result === false ? '<error>'.$failureText.'</error>' : '<info>'.($result === true ? '✔' : $result).'</info>')
                 );
 
                 if (isset($taskException)) {

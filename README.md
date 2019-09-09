@@ -40,9 +40,17 @@ class LaravelInstallCommand extends Command
             return true;
         });
 
+        $this->task('Analyzing Composer packages', function () {
+            return; // same as `return true;`
+        });
+
         $this->task('Doing something else', function () {
             return false;
         });
+
+        $this->task('Finalizing installation', function () {
+            return 'everything is up and running!';
+        }, 'loading... (this can take a minute or two)', 'oops, something went wrong and needs manual intervention');
     }
 }
 ```

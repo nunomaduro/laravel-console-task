@@ -60,10 +60,10 @@ class LaravelConsoleTaskServiceProvider extends ServiceProvider
                     $this->output->write("\x1B[s");         // Save current cursor position
                     $this->output->write("\x1B[{$lines}A"); // Move cursor $lines rows up
                     $this->output->write("\x1B[2K");        // Erase the line
-                } else if ($this->output->isDecorated()) {
+                } elseif ($this->output->isDecorated()) {
                     $this->output->write("\x0D");           // Move the cursor to the beginning of the line
                     $this->output->write("\x1B[2K");        // Erase the line
-                } else if (!$this->output->isDecorated() && !$taskOutput->hasCreatedOutput()) {
+                } elseif (! $this->output->isDecorated() && ! $taskOutput->hasCreatedOutput()) {
                     $this->output->writeln('');             // Make sure we first close the previous line
                 }
 

@@ -18,8 +18,6 @@ use Illuminate\Console\OutputStyle;
 /**
  * An output proxy for console tasks. Allows tasks to print additional
  * output during execution.
- * 
- * @package NunoMaduro\LaravelConsoleTask
  */
 class ConsoleTaskOutput
 {
@@ -40,13 +38,13 @@ class ConsoleTaskOutput
      */
     public function __construct(OutputStyle $output, string $indentation = '  -> ')
     {
-        $this->output      = $output;
+        $this->output = $output;
         $this->indentation = $indentation;
     }
 
     /**
      * Sets the indentation used for additional task output.
-     * 
+     *
      * @param string $indentation
      * @return void
      */

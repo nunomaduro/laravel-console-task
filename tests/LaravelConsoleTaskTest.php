@@ -198,20 +198,20 @@ class LaravelConsoleTaskTest extends TestCase
             ->method('write')
             ->with('Foo: <comment>loading...</comment>');
 
-            $outputMock->expects($this->once())
-                ->method('newLine');
-    
-            $outputMock->expects($this->exactly(7))
-                ->method('writeln')
-                ->withConsecutive(
-                    ['  -> Foo</>'],
-                    ['  -> <info>Bar</>'],
-                    ['  -> <error>Baz</>'],
-                    ['  -> <fg=magenta>Fizz</>'],
-                    ['  -> <fg=blue>Buzz</>'],
-                    ['  -> <comment>Lightning</>'],
-                    ['Foo: <info>✔</info>']
-                );
+        $outputMock->expects($this->once())
+            ->method('newLine');
+
+        $outputMock->expects($this->exactly(7))
+            ->method('writeln')
+            ->withConsecutive(
+                ['  -> Foo</>'],
+                ['  -> <info>Bar</>'],
+                ['  -> <error>Baz</>'],
+                ['  -> <fg=magenta>Fizz</>'],
+                ['  -> <fg=blue>Buzz</>'],
+                ['  -> <comment>Lightning</>'],
+                ['Foo: <info>✔</info>']
+            );
 
         $commandReflection = new ReflectionClass($command);
 

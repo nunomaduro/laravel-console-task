@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.4.0] - 2020-01-03
+### Added
+- Support to Laravel 7 
+
 ## [1.3.0] - 2019-08-04
 ### Added
 - Support to Laravel 6 [9dc2903](https://github.com/nunomaduro/laravel-console-task/commit/9dc2903166d1ba0984cb66d03f4f4bfd6604d660)

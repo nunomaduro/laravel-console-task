@@ -44,6 +44,13 @@ class LaravelInstallCommand extends Command
         $this->task('Doing something else', function () {
             return false;
         });
+
+        // Specify a 3rd parameter for a custom loading message
+        // Default is `loading...`
+        $this->task('Long task', function () {
+            sleep(60);
+            return true;
+        }, 'sleeping...');
     }
 }
 ```

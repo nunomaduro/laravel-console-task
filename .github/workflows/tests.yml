@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        php: ['7.4', '8.0', '8.1']
+        php: ['7.3', '7.4', '8.0', '8.1']
         dependency-version: [prefer-lowest, prefer-stable]
 
     name: PHP ${{ matrix.php }} - ${{ matrix.os }} - ${{ matrix.dependency-version }}
@@ -34,4 +34,4 @@ jobs:
         composer update --${{ matrix.dependency-version }} --no-interaction --no-progress --ansi
 
     - name: Unit Tests
-      run: vendor/bin/phpunit --colors=always
+      run: vendor/bin/pest --colors=always

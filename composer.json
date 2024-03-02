@@ -1,7 +1,16 @@
 {
     "name": "nunomaduro/laravel-console-task",
     "description": "Laravel Console Task is a output method for your Laravel/Laravel Zero commands.",
-    "keywords": ["console", "command-line", "php", "cli", "laravel-zero", "laravel", "artisan", "symfony"],
+    "keywords": [
+        "console",
+        "command-line",
+        "php",
+        "cli",
+        "laravel-zero",
+        "laravel",
+        "artisan",
+        "symfony"
+    ],
     "license": "MIT",
     "support": {
         "issues": "https://github.com/nunomaduro/laravel-console-task/issues",
@@ -15,11 +24,11 @@
     ],
     "require": {
         "php": "^8.1",
-        "illuminate/console": "^9.0|^10.0",
-        "illuminate/support": "^9.0|^10.0"
+        "illuminate/console": "^9.0|^10.0|^11.0",
+        "illuminate/support": "^9.0|^10.0|^11.0"
     },
     "require-dev": {
-        "pestphp/pest": "^1.22.3"
+        "pestphp/pest": "^1.22.3|^2.34"
     },
     "autoload": {
         "psr-4": {

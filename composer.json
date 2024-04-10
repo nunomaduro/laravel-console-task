@@ -19,7 +19,7 @@
         "illuminate/support": "^9.0|^10.0|^11.0"
     },
     "require-dev": {
-        "pestphp/pest": "^1.22.3"
+        "pestphp/pest": "^1.22.3|^2.34"
     },
     "autoload": {
         "psr-4": {

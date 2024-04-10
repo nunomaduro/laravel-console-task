@@ -1,7 +1,7 @@
 <?php
 
 /**
-Usage: ->with(...WithConsecutive::create(...$withCodes))
+ * Usage: ->with(...WithConsecutive::create(...$withCodes)).
  */
 
 declare(strict_types=1);
@@ -17,8 +17,7 @@ use RuntimeException;
 class WithConsecutive
 {
     /**
-     * @param array<mixed> $parameterGroups
-     *
+     * @param  array<mixed>  $parameterGroups
      * @return array<int, Callback<mixed>>
      */
     public static function create(...$parameterGroups): array
@@ -39,7 +38,7 @@ class WithConsecutive
 
             // prepare parameters
             foreach ($parameters as $parameter) {
-                if (!$parameter instanceof Constraint) {
+                if (! $parameter instanceof Constraint) {
                     $parameter = new IsEqual($parameter);
                 }
 
@@ -55,7 +54,7 @@ class WithConsecutive
         }
 
         // build callback
-        for ($index = 0; $index < $parametersCount; ++$index) {
+        for ($index = 0; $index < $parametersCount; $index++) {
             $result[$index] = Assert::callback(static function ($value) use ($values, $index) {
                 static $map = null;
                 $map ??= $values[$index];

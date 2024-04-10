@@ -15,7 +15,6 @@ namespace NunoMaduro\Tests\LaravelConsoleTask;
 
 use Illuminate\Console\Command;
 use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
-use NunoMaduro\Tests\LaravelConsoleTask\WithConsecutive;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;

@@ -15,14 +15,15 @@
     ],
     "require": {
         "php": "^8.1",
-        "illuminate/console": "^9.0|^10.0",
-        "illuminate/support": "^9.0|^10.0"
+        "illuminate/console": "^9.0|^10.0|^11.0",
+        "illuminate/support": "^9.0|^10.0|^11.0"
     },
     "require-dev": {
         "pestphp/pest": "^1.22.3"
     },
     "autoload": {
         "psr-4": {
+            "NunoMaduro\\Tests\\LaravelConsoleTask\\": "tests/",
             "NunoMaduro\\LaravelConsoleTask\\": "src/"
         }
     },

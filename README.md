@@ -17,7 +17,7 @@ Laravel Console Task was created by, and is maintained by [Nuno Maduro](https://
 
 > **Requires:**
 > - **[PHP 8.1+](https://php.net/releases)**
-> - **[Laravel 9.0+](https://github.com/laravel/laravel)**
+> - **[Laravel 10.0+](https://github.com/laravel/laravel)**
 
 Require Laravel Console Task using [Composer](https://getcomposer.org):
 

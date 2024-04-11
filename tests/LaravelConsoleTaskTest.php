@@ -55,10 +55,11 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock->expects($this->exactly(3))
             ->method('write')
-            ->withConsecutive(
+            ->with(...WithConsecutive::create(
                 [$this->equalTo('Foo: <comment>loading...</comment>')],
                 [$this->equalTo("\x0D")],
                 [$this->equalTo("\x1B[2K")]
+            )
             );
 
         $outputMock->expects($this->once())
@@ -111,9 +112,10 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock->expects($this->exactly(2))
             ->method('writeln')
-            ->withConsecutive(
+            ->with(...WithConsecutive::create(
                 [''],
                 ['Foo: <info>✔</info>']
+            )
             );
 
         $commandReflection = new ReflectionClass($command);
@@ -141,10 +143,11 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock->expects($this->exactly(3))
             ->method('write')
-            ->withConsecutive(
+            ->with(...WithConsecutive::create(
                 [$this->equalTo('Bar: <comment>loading...</comment>')],
                 [$this->equalTo("\x0D")],
                 [$this->equalTo("\x1B[2K")]
+            )
             );
 
         $outputMock->expects($this->once())
@@ -185,9 +188,10 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock->expects($this->exactly(2))
             ->method('writeln')
-            ->withConsecutive(
+            ->with(...WithConsecutive::create(
                 [''],
                 ['Bar: <error>failed</error>']
+            )
             );
 
         $commandReflection = new ReflectionClass($command);
@@ -224,9 +228,10 @@ class LaravelConsoleTaskTest extends TestCase
 
         $outputMock->expects($this->exactly(2))
             ->method('writeln')
-            ->withConsecutive(
+            ->with(...WithConsecutive::create(
                 [''],
                 ['Bar: <error>failed</error>']
+            )
             );
 
         $commandReflection = new ReflectionClass($command);

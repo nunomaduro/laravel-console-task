@@ -24,11 +24,11 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/console": "^10.0|^11.0|^12.0",
-        "illuminate/support": "^10.0|^11.0|^12.0"
+        "illuminate/console": "^11.0|^12.0|^13.0",
+        "illuminate/support": "^11.0|^12.0|^13.0"
     },
     "require-dev": {
-        "pestphp/pest": "^3.7"
+        "pestphp/pest": "^3.7|^4.4"
     },
     "autoload": {
         "psr-4": {
